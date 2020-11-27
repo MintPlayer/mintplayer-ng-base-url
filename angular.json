@@ -3,5 +3,46 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "@mintplayer/ng-base-url": {
+      "projectType": "library",
+      "root": "projects/mintplayer/ng-base-url",
+      "sourceRoot": "projects/mintplayer/ng-base-url/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/mintplayer/ng-base-url/tsconfig.lib.json",
+            "project": "projects/mintplayer/ng-base-url/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/mintplayer/ng-base-url/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/mintplayer/ng-base-url/src/test.ts",
+            "tsConfig": "projects/mintplayer/ng-base-url/tsconfig.spec.json",
+            "karmaConfig": "projects/mintplayer/ng-base-url/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/mintplayer/ng-base-url/tsconfig.lib.json",
+              "projects/mintplayer/ng-base-url/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "@mintplayer/ng-base-url"
 }
