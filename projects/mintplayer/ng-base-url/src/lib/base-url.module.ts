@@ -11,14 +11,10 @@ export function getBaseUrl() {
   }
 };
 
-@NgModule(/*{
-  providers: [
-    { provide: BASE_URL, useFactory: getBaseUrl }
-  ]
-}*/)
+@NgModule()
 export class BaseUrlModule {
-  static forRoot() {
-    return <ModuleWithProviders<BaseUrlModule>>{
+  static forRoot() : ModuleWithProviders<BaseUrlModule> {
+    return {
       ngModule: BaseUrlModule,
       providers: [
         { provide: BASE_URL, useFactory: getBaseUrl }
