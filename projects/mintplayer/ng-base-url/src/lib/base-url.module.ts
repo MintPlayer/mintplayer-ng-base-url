@@ -1,15 +1,19 @@
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
+
+export const BASE_URL = new InjectionToken<string>('BaseUrl');
 
 export function getBaseUrl() {
-  return document.getElementsByTagName('base')[0].href.slice(0, -1);
+  let baseHref = document.getElementsByTagName('base')[0].href;
+  if (baseHref.endsWith('/')) {
+    return baseHref.slice(0, -1);
+  } else {
+    return baseHref;
+  }
 };
 
 @NgModule({
-  declarations: [],
-  imports: [],
   providers: [
-    { provide: 'BASE_URL', useFactory: getBaseUrl }
-  ],
-  exports: []
+    { provide: BASE_URL, useFactory: getBaseUrl }
+  ]
 })
 export class BaseUrlModule { }
