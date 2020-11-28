@@ -1,4 +1,4 @@
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
 
 export const BASE_URL = new InjectionToken<string>('BaseUrl');
 
@@ -11,9 +11,18 @@ export function getBaseUrl() {
   }
 };
 
-@NgModule({
+@NgModule(/*{
   providers: [
     { provide: BASE_URL, useFactory: getBaseUrl }
   ]
-})
-export class BaseUrlModule { }
+}*/)
+export class BaseUrlModule {
+  static forRoot() {
+    return <ModuleWithProviders<BaseUrlModule>>{
+      ngModule: BaseUrlModule,
+      providers: [
+        { provide: BASE_URL, useFactory: getBaseUrl }
+      ]
+    }
+  }
+}
