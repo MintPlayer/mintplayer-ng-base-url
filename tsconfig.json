@@ -21,8 +21,7 @@
     ],
     "paths": {
       "@mintplayer/ng-base-url": [
-        "dist/mintplayer/ng-base-url/mintplayer-ng-base-url",
-        "dist/mintplayer/ng-base-url"
+        "dist/mintplayer/ng-base-url/mintplayer-ng-base-url.d.ts"
       ]
     }
   },
