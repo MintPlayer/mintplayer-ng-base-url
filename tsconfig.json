@@ -16,9 +16,7 @@
       "dom"
     ],
     "paths": {
-      "@mintplayer/ng-base-url": [
-        "dist/mintplayer/ng-base-url/mintplayer-ng-base-url.d.ts"
-      ]
+      "@mintplayer/ng-base-url": ["projects/mintplayer/ng-base-url/src/public-api.ts"]
     }
   }
 }
