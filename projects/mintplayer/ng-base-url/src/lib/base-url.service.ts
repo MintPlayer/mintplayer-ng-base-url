@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
-import { BASE_URL } from './base-url.module';
+import { BaseUrlModule, BASE_URL } from './base-url.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: BaseUrlModule
 })
 export class BaseUrlService {
 
