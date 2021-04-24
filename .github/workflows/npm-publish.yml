@@ -28,6 +28,6 @@ jobs:
     #- name: Test
     #  run: npm run test-headless
     
-    - run: npm publish --access public
+    - run: npm publish --access public "projects/mintplayer/ng-base-url"
       env:
         NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NODE_TO_NPMJS_COM }}
