@@ -11,14 +11,21 @@ export function getBaseUrl() {
   }
 };
 
-@NgModule()
+@NgModule({
+  declarations: [],
+  imports: [],
+  exports: [],
+  providers: [
+    { provide: BASE_URL, useFactory: getBaseUrl }
+  ]
+})
 export class BaseUrlModule {
-  static forRoot() : ModuleWithProviders<BaseUrlModule> {
-    return {
-      ngModule: BaseUrlModule,
-      providers: [
-        { provide: BASE_URL, useFactory: getBaseUrl }
-      ]
-    }
-  }
+  // static forRoot() : ModuleWithProviders<BaseUrlModule> {
+  //   return {
+  //     ngModule: BaseUrlModule,
+  //     providers: [
+  //       { provide: BASE_URL, useFactory: getBaseUrl }
+  //     ]
+  //   }
+  // }
 }
