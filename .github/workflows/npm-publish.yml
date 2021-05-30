@@ -10,14 +10,18 @@ jobs:
     name: npm-publish
     runs-on: ubuntu-latest
     
+    permissions: 
+      contents: read
+      packages: write 
+    
     steps:
     - name: Checkout
       uses: actions/checkout@v2
     
-    - uses: actions/setup-node@v1
+    - name: Setup node
+      uses: actions/setup-node@v2
       with:
         node-version: 14
-        registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
       run: npm install
@@ -25,9 +29,21 @@ jobs:
     - name: Build
       run: npm run build -- --prod
 
-    #- name: Test
-    #  run: npm run test-headless
+    - name: Test
+      run: npm run test-headless
     
-    - run: npm publish --access public "projects/mintplayer/ng-base-url"
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.PUBLISH_NODE_TO_NPMJS_COM }}
+    - name: Push to NPM
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        package: 'dist/mintplayer/ng-base-url/package.json'
+        registry: 'https://registry.npmjs.org'
+        token: ${{ secrets.PUBLISH_NODE_TO_NPMJS_COM }}
+        access: 'public'
+
+    - name: Push to Github
+      uses: JS-DevTools/npm-publish@v1
+      with:
+        package: 'dist/mintplayer/ng-base-url/package.json'
+        registry: 'https://npm.pkg.github.com'
+        token: ${{ github.token }}
+        access: 'public'
