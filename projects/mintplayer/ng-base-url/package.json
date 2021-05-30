@@ -1,6 +1,6 @@
 {
   "name": "@mintplayer/ng-base-url",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": false,
   "peerDependencies": {
     "@angular/common": "^11.0.1",

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { BaseUrlModule, BASE_URL } from './base-url.module';
+import { BaseUrlModule } from '../../base-url.module';
+import { BASE_URL } from '../../providers/base-url.provider';
 
 @Injectable({
   providedIn: BaseUrlModule

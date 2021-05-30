@@ -1,6 +1,5 @@
-import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
-
-export const BASE_URL = new InjectionToken<string>('BaseUrl');
+import { NgModule } from '@angular/core';
+import { BASE_URL } from './providers/base-url.provider';
 
 export function getBaseUrl() {
   let baseHref = document.getElementsByTagName('base')[0].href;
