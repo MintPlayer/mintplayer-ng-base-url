@@ -3,4 +3,5 @@
  */
 
 export * from './lib/base-url.module';
-export * from './lib/base-url.service';
+export * from './lib/providers';
+export * from './lib/services';
