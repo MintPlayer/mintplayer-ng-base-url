@@ -7,6 +7,7 @@ import { BOOT_FUNC_PARAMS, BROWSER_BASE_URL, SERVER_BASE_URL } from './providers
 import { BASE_URL } from './providers/base-url.provider';
 
 export function getBaseUrl(browserBaseUrl: string, serverBaseUrl: string, serverSide?: boolean) {
+  console.log('SERVER_SIDE value', serverSide);
   if (serverSide === null) {
     return browserBaseUrl;
   } else if (serverSide) {
