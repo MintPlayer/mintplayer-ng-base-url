@@ -4,7 +4,7 @@ import { SERVER_SIDE } from '@mintplayer/ng-server-side';
 import { BootFuncParams } from './interfaces/boot-func-params';
 import { BASE_URL, BOOT_FUNC_PARAMS, BROWSER_BASE_URL, BROWSER_TEST_STRING, SERVER_BASE_URL, SERVER_TEST_STRING, TEST_STRING } from './providers';
 
-export function getBaseUrl(browserBaseUrl: string, serverBaseUrl: string, serverSide?: boolean) {
+export function getBaseUrl(browserBaseUrl?: string, serverBaseUrl?: string, serverSide?: boolean) {
   console.log('SERVER_SIDE value', serverSide);
   if (serverSide === null) {
     return browserBaseUrl;
@@ -55,7 +55,7 @@ export function getServerTestString(bootFuncParams?: BootFuncParams) {
   imports: [],
   exports: [],
   providers: [
-    { provide: BASE_URL, useFactory: getBaseUrl, deps: [BROWSER_BASE_URL, SERVER_BASE_URL, [new Optional(), SERVER_SIDE]] },
+    { provide: BASE_URL, useFactory: getBaseUrl, deps: [[new Optional(), BROWSER_BASE_URL], [new Optional(), SERVER_BASE_URL], [new Optional(), SERVER_SIDE]] },
     { provide: BROWSER_BASE_URL, useFactory: getBrowserBaseUrl, deps: [DOCUMENT] },
     { provide: SERVER_BASE_URL, useFactory: getServerBaseUrl, deps: [[new Optional(), BOOT_FUNC_PARAMS]] },
 
