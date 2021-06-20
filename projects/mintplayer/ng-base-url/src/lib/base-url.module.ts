@@ -1,36 +1,8 @@
 import { DOCUMENT } from '@angular/common';
-import { NgModule, Optional } from '@angular/core';
+import { Inject, Injectable, NgModule, Optional } from '@angular/core';
 import { SERVER_SIDE } from '@mintplayer/ng-server-side';
 import { BootFuncParams } from './interfaces/boot-func-params';
 import { BASE_URL, BOOT_FUNC_PARAMS, BROWSER_BASE_URL, BROWSER_TEST_STRING, SERVER_BASE_URL, SERVER_TEST_STRING, TEST_STRING } from './providers';
-
-export function getBaseUrl(browserBaseUrl?: string, serverBaseUrl?: string, serverSide?: boolean) {
-  console.log('SERVER_SIDE value', serverSide);
-  if (serverSide === null) {
-    return browserBaseUrl;
-  } else if (serverSide) {
-    return serverBaseUrl;
-  } else {
-    return browserBaseUrl;
-  }
-};
-
-export function getBrowserBaseUrl(doc: Document) {
-  let baseHref = doc.getElementsByTagName('base')[0].href;
-  if (baseHref.endsWith('/')) {
-    return baseHref.slice(0, -1);
-  } else {
-    return baseHref;
-  }
-}
-
-export function getServerBaseUrl(bootFuncParams?: BootFuncParams) {
-  if (bootFuncParams === null) {
-    return null;
-  } else {
-    return bootFuncParams.origin + bootFuncParams.baseUrl.slice(0, -1);
-  }
-}
 
 export function getTestString(browserTestString: string, serverTestString: string, serverSide?: boolean) {
   if (serverSide === null) {
@@ -50,14 +22,60 @@ export function getServerTestString(bootFuncParams?: BootFuncParams) {
   return 'Server Test String';
 }
 
+// ALL PARAMETERS ARE BEING EVALUATED HERE RIGHTAWAY, NOT JUST AT THE TIME THEY'RE NEEDED
+export function getBaseUrl(browserBaseUrlProvider: BrowserBaseUrlProvider, serverBaseUrlProvider: ServerBaseUrlProvider, serverSide?: boolean) {
+  console.log('SERVER_SIDE value', serverSide);
+  if (serverSide === null) {
+    return browserBaseUrlProvider.getBaseUrl();
+  } else if (serverSide) {
+    return serverBaseUrlProvider.getBaseUrl();
+  } else {
+    return browserBaseUrlProvider.getBaseUrl();
+  }
+};
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BrowserBaseUrlProvider {
+
+  constructor(@Inject(DOCUMENT) private doc: Document) {
+  }
+  
+  public getBaseUrl() {
+    let baseHref = this.doc.getElementsByTagName('base')[0].href;
+    if (baseHref.endsWith('/')) {
+      return baseHref.slice(0, -1);
+    } else {
+      return baseHref;
+    }
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ServerBaseUrlProvider {
+  constructor(@Inject(BOOT_FUNC_PARAMS) private bootFuncParams: BootFuncParams) {
+  }
+
+  public getBaseUrl() {
+    if (this.bootFuncParams === null) {
+      return null;
+    } else {
+      return this.bootFuncParams.origin + this.bootFuncParams.baseUrl.slice(0, -1);
+    }
+  }
+}
+
 @NgModule({
   declarations: [],
   imports: [],
   exports: [],
   providers: [
-    { provide: BASE_URL, useFactory: getBaseUrl, deps: [[new Optional(), BROWSER_BASE_URL], [new Optional(), SERVER_BASE_URL], [new Optional(), SERVER_SIDE]] },
-    { provide: BROWSER_BASE_URL, useFactory: getBrowserBaseUrl, deps: [DOCUMENT] },
-    { provide: SERVER_BASE_URL, useFactory: getServerBaseUrl, deps: [[new Optional(), BOOT_FUNC_PARAMS]] },
+    { provide: BrowserBaseUrlProvider, useClass: BrowserBaseUrlProvider },
+    { provide: ServerBaseUrlProvider, useClass: ServerBaseUrlProvider },
+    { provide: BASE_URL, useFactory: getBaseUrl, deps: [BrowserBaseUrlProvider, ServerBaseUrlProvider, [new Optional(), SERVER_SIDE]] },
 
     { provide: TEST_STRING, useFactory: getTestString, deps: [BROWSER_TEST_STRING, SERVER_TEST_STRING, [new Optional(), SERVER_SIDE]] },
     { provide: BROWSER_TEST_STRING, useFactory: getBrowserTestString },
