@@ -1,16 +1,17 @@
-import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { NgModule, Optional, PLATFORM_ID } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { NgModule, Optional } from '@angular/core';
+import { SERVER_SIDE } from '@mintplayer/ng-server-side';
 import { BootFuncParams } from './interfaces/boot-func-params';
 import { BOOT_FUNC_PARAMS, BROWSER_BASE_URL, SERVER_BASE_URL } from './providers';
 import { BASE_URL } from './providers/base-url.provider';
 
-export function getBaseUrl(platformId: object, browserBaseUrl: string, serverBaseUrl: string) {
-  if (isPlatformServer(platformId)) {
-    return serverBaseUrl;
-  } else if (isPlatformBrowser(platformId)) {
+export function getBaseUrl(browserBaseUrl: string, serverBaseUrl: string, serverSide?: boolean) {
+  if (serverSide === null) {
     return browserBaseUrl;
+  } else if (serverSide) {
+    return serverBaseUrl;
   } else {
-    return null;
+    return browserBaseUrl;
   }
 };
 
@@ -36,7 +37,7 @@ export function getServerBaseUrl(bootFuncParams: BootFuncParams) {
   imports: [],
   exports: [],
   providers: [
-    { provide: BASE_URL, useFactory: getBaseUrl, deps: [PLATFORM_ID, BROWSER_BASE_URL, SERVER_BASE_URL] },
+    { provide: BASE_URL, useFactory: getBaseUrl, deps: [BROWSER_BASE_URL, SERVER_BASE_URL, [new Optional(), SERVER_SIDE]] },
     { provide: BROWSER_BASE_URL, useFactory: getBrowserBaseUrl, deps: [DOCUMENT] },
     { provide: SERVER_BASE_URL, useFactory: getServerBaseUrl, deps: [[new Optional(), BOOT_FUNC_PARAMS]] },
   ]
