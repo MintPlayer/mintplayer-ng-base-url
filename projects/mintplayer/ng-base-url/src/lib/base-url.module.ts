@@ -1,8 +1,8 @@
-import { DOCUMENT } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Inject, Injectable, NgModule, Optional } from '@angular/core';
 import { SERVER_SIDE } from '@mintplayer/ng-server-side';
 import { BootFuncParams } from './interfaces/boot-func-params';
-import { BASE_URL, BOOT_FUNC_PARAMS, BROWSER_BASE_URL, BROWSER_TEST_STRING, SERVER_BASE_URL, SERVER_TEST_STRING, TEST_STRING } from './providers';
+import { BASE_URL, BOOT_FUNC_PARAMS, BROWSER_TEST_STRING, SERVER_TEST_STRING, TEST_STRING } from './providers';
 
 export function getTestString(browserTestString: string, serverTestString: string, serverSide?: boolean) {
   if (serverSide === null) {
@@ -39,11 +39,14 @@ export function getBaseUrl(browserBaseUrlProvider: BrowserBaseUrlProvider, serve
 })
 export class BrowserBaseUrlProvider {
 
-  constructor(@Inject(DOCUMENT) private doc: Document) {
+  constructor(@Inject(DOCUMENT) document: any) {
+    this.document = document;
   }
-  
+
+  private document: Document;
+
   public getBaseUrl() {
-    let baseHref = this.doc.getElementsByTagName('base')[0].href;
+    let baseHref = this.document.getElementsByTagName('base')[0].href;
     if (baseHref.endsWith('/')) {
       return baseHref.slice(0, -1);
     } else {
@@ -70,7 +73,7 @@ export class ServerBaseUrlProvider {
 
 @NgModule({
   declarations: [],
-  imports: [],
+  imports: [CommonModule],
   exports: [],
   providers: [
     { provide: BrowserBaseUrlProvider, useClass: BrowserBaseUrlProvider },
