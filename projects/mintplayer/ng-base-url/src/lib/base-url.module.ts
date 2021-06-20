@@ -1,10 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { NgModule, Optional } from '@angular/core';
 import { SERVER_SIDE } from '@mintplayer/ng-server-side';
-// import { SERVER_SIDE } from '@mintplayer/ng-server-side';
 import { BootFuncParams } from './interfaces/boot-func-params';
-import { BOOT_FUNC_PARAMS, BROWSER_BASE_URL, BROWSER_TEST_STRING, SERVER_BASE_URL, SERVER_TEST_STRING, TEST_STRING } from './providers';
-import { BASE_URL } from './providers/base-url.provider';
+import { BASE_URL, BOOT_FUNC_PARAMS, BROWSER_BASE_URL, BROWSER_TEST_STRING, SERVER_BASE_URL, SERVER_TEST_STRING, TEST_STRING } from './providers';
 
 export function getBaseUrl(browserBaseUrl: string, serverBaseUrl: string, serverSide?: boolean) {
   console.log('SERVER_SIDE value', serverSide);
@@ -44,6 +42,14 @@ export function getTestString(browserTestString: string, serverTestString: strin
   }
 }
 
+export function getBrowserTestString() {
+  return 'Browser Test String'
+}
+
+export function getServerTestString() {
+  return 'Server Test String';
+}
+
 @NgModule({
   declarations: [],
   imports: [],
@@ -52,8 +58,8 @@ export function getTestString(browserTestString: string, serverTestString: strin
     { provide: BASE_URL, useFactory: getBaseUrl, deps: [BROWSER_BASE_URL, SERVER_BASE_URL, [new Optional(), SERVER_SIDE]] },
     { provide: BROWSER_BASE_URL, useFactory: getBrowserBaseUrl, deps: [DOCUMENT] },
     { provide: SERVER_BASE_URL, useFactory: getServerBaseUrl, deps: [[new Optional(), BOOT_FUNC_PARAMS]] },
-    { provide: SERVER_TEST_STRING, useValue: 'Server Test String' },
-    { provide: BROWSER_TEST_STRING, useValue: 'Browser Test String' },
+    { provide: BROWSER_TEST_STRING, useValue: getBrowserTestString },
+    { provide: SERVER_TEST_STRING, useFactory: getServerTestString },
     { provide: TEST_STRING, useFactory: getTestString, deps: [BROWSER_TEST_STRING, SERVER_TEST_STRING, [new Optional(), SERVER_SIDE]] },
   ]
 })
