@@ -24,7 +24,7 @@ export function getBrowserBaseUrl(doc: Document) {
   }
 }
 
-export function getServerBaseUrl(bootFuncParams: BootFuncParams) {
+export function getServerBaseUrl(bootFuncParams?: BootFuncParams) {
   if (bootFuncParams === null) {
     return null;
   } else {
@@ -46,7 +46,7 @@ export function getBrowserTestString() {
   return 'Browser Test String'
 }
 
-export function getServerTestString() {
+export function getServerTestString(bootFuncParams?: BootFuncParams) {
   return 'Server Test String';
 }
 
@@ -58,9 +58,10 @@ export function getServerTestString() {
     { provide: BASE_URL, useFactory: getBaseUrl, deps: [BROWSER_BASE_URL, SERVER_BASE_URL, [new Optional(), SERVER_SIDE]] },
     { provide: BROWSER_BASE_URL, useFactory: getBrowserBaseUrl, deps: [DOCUMENT] },
     { provide: SERVER_BASE_URL, useFactory: getServerBaseUrl, deps: [[new Optional(), BOOT_FUNC_PARAMS]] },
-    { provide: BROWSER_TEST_STRING, useFactory: getBrowserTestString },
-    { provide: SERVER_TEST_STRING, useFactory: getServerTestString },
+
     { provide: TEST_STRING, useFactory: getTestString, deps: [BROWSER_TEST_STRING, SERVER_TEST_STRING, [new Optional(), SERVER_SIDE]] },
+    { provide: BROWSER_TEST_STRING, useFactory: getBrowserTestString },
+    { provide: SERVER_TEST_STRING, useFactory: getServerTestString, deps: [[new Optional(), BOOT_FUNC_PARAMS]] },
   ]
 })
 export class BaseUrlModule {
