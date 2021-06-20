@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { NgModule, Optional } from '@angular/core';
 import { SERVER_SIDE } from '@mintplayer/ng-server-side';
+// import { SERVER_SIDE } from '@mintplayer/ng-server-side';
 import { BootFuncParams } from './interfaces/boot-func-params';
 import { BOOT_FUNC_PARAMS, BROWSER_BASE_URL, SERVER_BASE_URL } from './providers';
 import { BASE_URL } from './providers/base-url.provider';
