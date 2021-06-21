@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { BootFuncParams } from "dist/mintplayer/ng-base-url/public-api";
+import { BootFuncParams } from "../interfaces/boot-func-params";
 import { BOOT_FUNC_PARAMS } from "./boot-func-params.provider";
 
 @Injectable({
