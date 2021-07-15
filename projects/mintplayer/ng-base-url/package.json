@@ -1,15 +1,15 @@
 {
   "name": "@mintplayer/ng-base-url",
-  "version": "2.3.1",
+  "version": "3.0.0",
   "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/MintPlayer/mintplayer-ng-base-url"
   },
   "peerDependencies": {
-    "@angular/common": "^11.0.1",
-    "@angular/core": "^11.0.1",
-    "@mintplayer/ng-server-side": "1.0.0"
+    "@angular/common": ">=10.0.0",
+    "@angular/core": ">=10.0.0",
+    "@mintplayer/ng-server-side": ">=2.0.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
